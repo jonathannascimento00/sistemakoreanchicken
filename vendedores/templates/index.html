@@ -1,10 +1,13 @@
-<!DOCTYPE HTML>
-<html>
-    <head></head>
-    <body>
-        <h1>Fornecedores</h1>
-        <div>
-            <p>Aqui você pode consultar, cadastrar, editar ou remover um fornecedor!</p>
-        </div>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div>
+        <h2>Bem-vindo ao sistema de cadastro de fornecedores</h2>
+    </div>
+    <div>
+        <a href="{% url 'novo_fornecedor' %}">Cadastrar novo fornecedor</a>
+        <a href="{% url 'listar_fornecedores' %}">Lista de fornecedores</a>
+    </div>
+
+{% endblock %}
