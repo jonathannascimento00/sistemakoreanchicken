@@ -1,0 +1,15 @@
+{% extends 'fornecedores/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Deletar fornecedor</h2>
+    </div>
+    <p>Você tem certeza que deseja deletar o fornecedor: <b>{{ fornecedor.nome }}</b>?</p>
+    <form method="POST" action="{% url 'remover_fornecedor' fornecedor.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Sim, deletar</button>
+      <a href="{% url 'listar_fornecedores' %}" class="btn btn-info">Não, manter</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'fornecedores/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Atualizar fornecedor {{ fornecedor.nome }}</h2>
+        </div>
+        <form method="POST" action="{% url 'editar_fornecedor' fornecedor.id %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Nome" class="form-control form-control-sm" value="{{ fornecedor.nome }}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" id="cnpj" name="cnpj" class="form-control form-control-sm" value="{{ fornecedor.cnpj }}" disabled>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ie">I.E.</label>
+                    <input type="text" id="ie" name="ie" class="form-control form-control-sm" value="{{ fornecedor.ie }}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" name="endereco" class="form-control form-control-sm" value="{{ fornecedor.endereco }}" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" class="form-control form-control-sm" value="{{ fornecedor.bairro }}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" class="form-control form-control-sm" value="{{ fornecedor.cidade }}" required>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="estado">UF</label>
+                    <input type="text" id="estado" name="estado" class="form-control form-control-sm" value="{{ fornecedor.estado }}" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="pais">País</label>
+                    <input type="text" id="pais" name="pais" class="form-control form-control-sm" value="{{ fornecedor.pais }}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" class="form-control form-control-sm" value="{{ fornecedor.cep }}" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" name="telefone" class="form-control form-control-sm" value="{{ fornecedor.telefone }}" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control form-control-sm" value="{{ fornecedor.email }}" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Atualizar</button>
+            <a href="{% url 'listar_fornecedores' %}" class="btn btn-danger btn-sm">Voltar</a>
+        </form>
+    </div>
+
+{% endblock %}

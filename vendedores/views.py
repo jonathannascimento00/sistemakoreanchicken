@@ -4,12 +4,12 @@ from django.template import loader, RequestContext
 from .models import Fornecedor
 
 def fornecedores(request):
-    template = loader.get_template('index.html')
+    template = loader.get_template('fornecedores/index.html')
     return HttpResponse(template.render())
 
 def listar_fornecedores(request):
     fornecedores = Fornecedor.objects.all()
-    return render(request, 'lista_fornecedores.html', {'fornecedores': fornecedores})
+    return render(request, 'fornecedores/lista_fornecedores.html', {'fornecedores': fornecedores})
 
 def novo_fornecedor(request):
     if request.method == 'POST':
@@ -28,7 +28,7 @@ def novo_fornecedor(request):
         )
         fornecedor.save()
         return redirect('listar_fornecedores')
-    return render(request, 'novo_fornecedor.html')
+    return render(request, 'fornecedores/novo_fornecedor.html')
 
 def editar_fornecedor(request, pk):
     fornecedor = get_object_or_404(Fornecedor, pk=pk)
@@ -44,11 +44,11 @@ def editar_fornecedor(request, pk):
         fornecedor.email = request.POST['email']
         fornecedor.save()
         return redirect('listar_fornecedores')
-    return render(request, 'editar_fornecedor.html', {'fornecedor': fornecedor})
+    return render(request, 'fornecedores/editar_fornecedor.html', {'fornecedor': fornecedor})
 
 def remover_fornecedor(request, pk):
     fornecedor = get_object_or_404(Fornecedor, pk=pk)
     if request.method == 'POST':
         fornecedor.delete()
         return redirect('listar_fornecedores')
-    return render(request, 'deletar_fornecedor.html', {'fornecedor': fornecedor})
+    return render(request, 'fornecedores/deletar_fornecedor.html', {'fornecedor': fornecedor})

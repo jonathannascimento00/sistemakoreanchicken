@@ -1,0 +1,52 @@
+{% extends 'fornecedores/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de fornecedores cadastrados</h2>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>I.E.</th>
+                <th>Endereço</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>País</th>
+                <th>CEP</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fornecedor in fornecedores %}
+            <tr>
+                <td>{{ fornecedor.nome }}</td>
+                <td>{{ fornecedor.cnpj }}</td>
+                <td>{{ fornecedor.ie }}</td>
+                <td>{{ fornecedor.endereco }}</td>
+                <td>{{ fornecedor.bairro }}</td>
+                <td>{{ fornecedor.cidade }}</td>
+                <td>{{ fornecedor.estado }}</td>
+                <td>{{ fornecedor.pais }}</td>
+                <td>{{ fornecedor.cep }}</td>
+                <td>{{ fornecedor.telefone }}</td>
+                <td>{{ fornecedor.email }}</td>
+                <td>
+                    <a href="{% url 'editar_fornecedor' fornecedor.id %}"><i class="bi bi-pencil" title="Editar"></i></a>
+                    <a href="{% url 'remover_fornecedor' fornecedor.id %}"><i class="bi bi-trash3" title="Deletar"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="13">Nenhum fornecedor cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
