@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'sistemadevendas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sistemafornecedores',
-        'USER': 'root',
-        'PASSWORD': 'admin123',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgresunivesp',
+        'PASSWORD': 'xF60DZUmjvsC6r7QfxX9',
+        'HOST':'projeto-restaurante-univesp.cdwu8g02qyhi.us-east-1.rds.amazonaws.com',
+        'PORT':'5432',
     }
 }
 
