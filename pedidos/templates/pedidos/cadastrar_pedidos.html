@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Cadastrar novo pedido</h2>
+        </div>
+        <div class="formulario">
+            <form method="POST" action="{% url 'novo_pedido' %}">
+                
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="fornecedor">Selecione um fornecedor:</label>
+                        <select name="fornecedor" class="custom-select mr-sm-2" required="required">
+                            {% for fornecedor in fornecedores %}
+                                <option value="{{ fornecedor.id }}">{{ fornecedor.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div id="produtosContainer">
+                        <!-- Produtos adicionados dinamicamente com JavaScript -->
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" onclick="adicionarProduto()">Adicionar Produto</button>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary btn-sm">Enviar pedido</button>
+                <a href="{% url 'pedidos' %}" class="btn btn-danger btn-sm">Voltar</a>    
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Função para adicionar uma nova linha de produto
+        function adicionarProduto() {
+            const produtosContainer = document.getElementById("produtosContainer");
+            
+            const produtoItem = document.createElement("div");
+            produtoItem.classList.add("produto-item");
+
+            produtoItem.innerHTML = `
+                <select name="produtos[][produto]" required>
+                    {% for produto in produtos %}
+                        <option value="{{ produto.id_produto }}">{{ produto.nome }}</option>
+                    {% endfor %}
+                </select>
+
+                
+                <input type="number" name="produtos[][quantidade]" placeholder="Quantidade" required>
+                <input type="number" step="0.01" name="produtos[][valor_unitario]" placeholder="Valor Unitário" required>
+                <button type="button" onclick="removerProduto(this)">Remover</button>
+            `;
+            
+            produtosContainer.appendChild(produtoItem);
+        }
+
+        // Função para remover uma linha de produto
+        function removerProduto(button) {
+            button.parentElement.remove();
+        }
+    </script>
+
+{% endblock %}

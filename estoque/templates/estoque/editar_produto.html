@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Editar Produto</h2>
+        </div>
+        <div class="formulario">
+            <form method="POST" action="{% url 'editar_produto' estoque.produto.id_produto %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome-produto" value="{{ estoque.produto.nome }}" class="form-control form-control-sm" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="cnpj">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade" value="{{ estoque.quantidade }}" class="form-control form-control-sm" required>
+                    </div>
+                </div>
+            </br>
+                <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                <a href="{% url 'listar_estoque' %}" class="btn btn-danger btn-sm">Voltar</a>    
+            </form>
+        </div>
+    </div>       
+{% endblock %}

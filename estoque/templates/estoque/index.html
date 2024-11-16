@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-fluid text-center container-title">
+            <h3>Você está no módulo de cadastro de estoque!</h3>
+        </div>
+        <div class="container-fluid text-center container-body">
+            <h4>Por aqui você conseguirá controlar o estoque do restaurante!</h4>
+            <p>O que você deseja fazer agora?</p>
+            <a href="{% url 'cadastrar_estoque' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-plus-lg"></i> Cadastrar novo produto</a>
+            <a href="{% url 'listar_estoque' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-card-list"></i> Lista do estoque</a>
+        </div>
+    </div>
+
+{% endblock %}

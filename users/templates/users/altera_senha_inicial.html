@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+<form method="post">
+    {% csrf_token %}
+    <label for="nova_senha">Nova Senha:</label>
+    <input type="password" name="nova_senha" required>
+    <button type="submit">Alterar Senha</button>
+</form>

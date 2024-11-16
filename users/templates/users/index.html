@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-fluid text-center container-title">
+            <h2>Você está no módulo de cadastro de usuários!</h2>
+        </div>
+        <div class="container-fluid text-center container-body">
+            <h4>Cadastre e veja os usuários cadastrados no sistema</h4>
+            <p>O que você deseja fazer agora?</p>
+            <a href="{% url 'novo_usuario' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-plus-lg"></i> Cadastrar novo usuário</a>
+            <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-card-list"></i> Lista de usuários</a>
+        </div>
+    </div>
+
+{% endblock %}

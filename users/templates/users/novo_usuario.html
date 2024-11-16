@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Cadastrar novo usuário</h2>
+        </div>
+        <div class="formulario">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" name="username" required>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+
+                <label for="perfil">Perfil:</label>
+                <select name="perfil" required>
+                    <option value="ADMIN">Administrador</option>
+                    <option value="COLAB">Colaborador</option>
+                </select>
+
+                <label for="senha_temporaria">Senha Temporária:</label>
+                <input type="password" name="senha_temporaria" required>
+
+                <button type="submit">Cadastrar Usuário</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

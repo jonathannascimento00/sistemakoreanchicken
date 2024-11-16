@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-fluid text-center container-title">
+            <h2>Você está no módulo de cadastro de pedidos!</h2>
+        </div>
+        <div class="container-fluid text-center container-body">
+            <h4>Neste módulo você conseguirá listar e realizar novos pedidos para suprir o estoque do restaurante</h4>
+            <p>O que você deseja fazer agora?</p>
+            <a href="{% url 'novo_pedido' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-plus-lg"></i> Cadastrar novo pedido</a>
+            <a href="{% url 'listar_pedidos' %}" class="btn btn-secondary btn-lg" style="background-color: blue;"><i class="bi bi-card-list"></i> Lista de pedidos</a>
+        </div>
+    </div>
+
+{% endblock %}

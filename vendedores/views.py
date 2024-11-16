@@ -2,15 +2,19 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader, RequestContext
 from .models import Fornecedor
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def fornecedores(request):
     template = loader.get_template('fornecedores/index.html')
     return HttpResponse(template.render())
 
+@login_required
 def listar_fornecedores(request):
     fornecedores = Fornecedor.objects.all()
     return render(request, 'fornecedores/lista_fornecedores.html', {'fornecedores': fornecedores})
 
+@login_required
 def novo_fornecedor(request):
     if request.method == 'POST':
         fornecedor = Fornecedor(
@@ -30,6 +34,7 @@ def novo_fornecedor(request):
         return redirect('listar_fornecedores')
     return render(request, 'fornecedores/novo_fornecedor.html')
 
+@login_required
 def editar_fornecedor(request, pk):
     fornecedor = get_object_or_404(Fornecedor, pk=pk)
     if request.method == 'POST':
@@ -46,6 +51,7 @@ def editar_fornecedor(request, pk):
         return redirect('listar_fornecedores')
     return render(request, 'fornecedores/editar_fornecedor.html', {'fornecedor': fornecedor})
 
+@login_required
 def remover_fornecedor(request, pk):
     fornecedor = get_object_or_404(Fornecedor, pk=pk)
     if request.method == 'POST':

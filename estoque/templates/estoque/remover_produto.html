@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Deletar produto</h2>
+    </div>
+    <p>Você tem certeza que deseja deletar o produto: <b>{{ estoque.produto.nome }}</b>?</p>
+    <form method="POST" action="{% url 'remover_produto' estoque.produto.id_produto %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Sim, deletar</button>
+      <a href="{% url 'listar_estoque' %}" class="btn btn-info">Não, manter</a>
+    </form>
+  </div>
+{% endblock %}

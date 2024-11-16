@@ -1,4 +1,4 @@
-{% extends 'fornecedores/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="cnpj">CNPJ</label>
                     <input type="text" id="cnpj" name="cnpj" class="form-control form-control-sm" value="{{ fornecedor.cnpj }}" disabled>
                 </div>
@@ -23,37 +23,37 @@
                     <label for="ie">I.E.</label>
                     <input type="text" id="ie" name="ie" class="form-control form-control-sm" value="{{ fornecedor.ie }}" required>
                 </div>
+                <div class="form-group col-md-2">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" class="form-control form-control-sm" value="{{ fornecedor.cep }}" required>
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-8">
                     <label for="endereco">Endereço</label>
-                    <input type="text" id="endereco" name="endereco" class="form-control form-control-sm" value="{{ fornecedor.endereco }}" required>
+                    <input type="text" id="endereco" name="endereco" class="form-control form-control-sm" value="{{ fornecedor.endereco }}" readonly required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="bairro">Bairro</label>
-                    <input type="text" id="bairro" name="bairro" class="form-control form-control-sm" value="{{ fornecedor.bairro }}" required>
+                    <input type="text" id="bairro" name="bairro" class="form-control form-control-sm" value="{{ fornecedor.bairro }}" readonly required>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" name="cidade" class="form-control form-control-sm" value="{{ fornecedor.cidade }}" required>
+                    <input type="text" id="cidade" name="cidade" class="form-control form-control-sm" value="{{ fornecedor.cidade }}" readonly required>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="estado">UF</label>
-                    <input type="text" id="estado" name="estado" class="form-control form-control-sm" value="{{ fornecedor.estado }}" required>
+                    <input type="text" id="estado" name="estado" class="form-control form-control-sm" value="{{ fornecedor.estado }}" readonly required>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="pais">País</label>
-                    <input type="text" id="pais" name="pais" class="form-control form-control-sm" value="{{ fornecedor.pais }}" required>
+                    <input type="text" id="pais" name="pais" class="form-control form-control-sm" value="{{ fornecedor.pais }}" readonly required>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-2">
-                    <label for="cep">CEP</label>
-                    <input type="text" id="cep" name="cep" class="form-control form-control-sm" value="{{ fornecedor.cep }}" required>
-                </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="telefone">Telefone</label>
                     <input type="text" id="telefone" name="telefone" class="form-control form-control-sm" value="{{ fornecedor.telefone }}" required>
                 </div>
@@ -67,4 +67,34 @@
         </form>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Função para buscar o endereço pelo CEP
+        $("#cep").on("blur", function() {
+            const cep = $(this).val().replace(/\D/g, '');
+        
+            if (cep) {
+                $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
+                    if (!("erro" in data)) {
+                        $("#cidade").val(data.localidade);
+                        $("#estado").val(data.uf);
+
+                        if (data.logradouro) {
+                            // CEP completo com logradouro: Preenche e mantém campos readonly
+                            $("#endereco").val(data.logradouro).prop("readonly", true);
+                            $("#bairro").val(data.bairro).prop("readonly", true);
+                        } else {
+                            // CEP único de cidade: Libera campo 'endereco' para preenchimento
+                            $("#endereco").val("").prop("readonly", false);
+                            $("#bairro").val("").prop("readonly", false);
+                        }
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                }).fail(function() {
+                    alert("Erro ao buscar o CEP.");
+                });
+            }
+        });
+        </script> 
 {% endblock %}

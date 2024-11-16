@@ -1,6 +1,7 @@
 from django.db import models
 
 class Fornecedor(models.Model):
+    id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100, blank=False)
     cnpj = models.CharField(max_length=20, blank=False, unique=True)
     ie = models.CharField(max_length=20)

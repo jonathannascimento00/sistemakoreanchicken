@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-fluid text-center container-title">
+            <h2>Bem-vindo | Selecione o módulo que você deseja entrar</h2>
+        </div>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="d-flex flex-column align-items-center" style="width: 100%;max-width: 400px;">
+                <a href="{% url 'fornecedores' %}" class="btn btn-primary btn-lg" style="width: 100%; background-color: blue;"><i class="bi bi-plus-lg"></i> Fornecedores</a></br>
+                <a href="{% url 'pedidos' %}" class="btn btn-primary btn-lg" style="width: 100%; background-color: blue;"><i class="bi bi-card-list"></i> Pedidos</a></br>
+                <a href="{% url 'estoque' %}" class="btn btn-primary btn-lg" style="width: 100%; background-color: blue;"><i class="bi bi-box-seam-fill"></i> Estoque</a></br>
+                {% if user.is_authenticated and user.perfil == 'ADMIN' %}
+                    <a href="{% url 'usuarios' %}" class="btn btn-primary btn-lg" style="width: 100%; background-color: blue;"><i class="bi bi-people-fill"></i> Usuários</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

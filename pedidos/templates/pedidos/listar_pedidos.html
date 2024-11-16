@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de pedidos cadastrados</h2>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Número do pedido</th>
+                <th>Fornecedor</th>
+                <th>Data do pedido</th>
+                <th>Valor Total</th>
+                </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.fornecedor.nome }}</td>
+                <td>{{ pedido.data_pedido }}</td>
+                <td>R$ {{ pedido.valor_total }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="13">Nenhum pedido cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
