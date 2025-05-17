@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(@$@85@x8su+5f14gkn9a3ijbm&#%_03wyga%*c+#^ywzj=0&b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://sistemakoreanchicken.onrender.com/']
+ALLOWED_HOSTS = ['https://sistemakoreanchicken.onrender.com/', '127.0.0.1']
 
 
 # Application definition
@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'sistemadevendas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'koreanchicken',
         'USER': 'postgresunivesp',
-        'PASSWORD': 'xF60DZUmjvsC6r7QfxX9',
-        'HOST':'projeto-restaurante-univesp.cdwu8g02qyhi.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 'YZTSo3j1uOkmSq4Qb2xsvVrInuDM7g5Y',
+        'HOST':'dpg-d0k90iffte5s738fmgq0-a.oregon-postgres.render.com',
         'PORT':'5432',
     }
 }
