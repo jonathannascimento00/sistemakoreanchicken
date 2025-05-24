@@ -1,0 +1,37 @@
+header{
+    height: 10vh;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer{
+    margin-top:auto;
+}
+
+#content{
+    height: 80vh;
+}
+
+.container-title{
+    min-height: 20vh;
+}
+
+.container-body{
+    min-height: 61vh;
+}
+
+.index-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
