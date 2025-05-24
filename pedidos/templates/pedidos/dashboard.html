@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Dashboard de Pedidos</h1>
+    
+    <!-- Filtro por data -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="form-inline">
+                        <div class="row mb-2">
+                            <div class="col-auto">
+                                <label for="data_inicio" class="mr-2">De:</label>
+                                <input type="date" class="form-control form-control-sm" id="data_inicio" name="data_inicio" 
+                                value="{{ data_inicio }}">
+                            </div>
+                            <div class="col-auto">
+                                <label for="data_fim" class="mr-2">Até:</label>
+                                <input type="date" class="form-control form-control-sm" id="data_fim" name="data_fim" 
+                                value="{{ data_fim }}">
+                            </div>    
+                        </div>
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    <!-- Resumo do período -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Item Mais Comprado</h5>
+                    {% if item_mais_comprado %}
+                        <p class="card-text">
+                            <strong>{{ item_mais_comprado.produto__nome }}</strong><br>
+                            Quantidade: {{ item_mais_comprado.total_quantidade }}<br>
+                            Valor Total: R$ {{ item_mais_comprado.total_vendido|floatformat:2 }}
+                        </p>
+                    {% else %}
+                        <p class="card-text">Nenhum pedido no período selecionado</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gráficos -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="valorChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="quantidadeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inclua Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Gráfico de Valor Total por Dia
+const valorCtx = document.getElementById('valorChart').getContext('2d');
+const valorChart = new Chart(valorCtx, {
+    type: 'line',
+    data: {
+        labels: JSON.parse('{{ datas_json|escapejs }}'),
+        datasets: [{
+            label: 'Valor Total (R$)',
+            data: JSON.parse('{{ valores_json|escapejs }}'),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Valor Total de Pedidos por Dia'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return 'R$ ' + context.raw.toFixed(2).replace('.', ',');
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'R$ ' + value.toFixed(2).replace('.', ',');
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Gráfico de Quantidade de Pedidos por Dia
+const qtdCtx = document.getElementById('quantidadeChart').getContext('2d');
+const qtdChart = new Chart(qtdCtx, {
+    type: 'bar',
+    data: {
+        labels: JSON.parse('{{ datas_json|escapejs }}'),
+        datasets: [{
+            label: 'Quantidade de Pedidos',
+            data: JSON.parse('{{ qtd_pedidos_json|escapejs }}'),
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Quantidade de Pedidos por Dia'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

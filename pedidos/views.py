@@ -6,6 +6,10 @@ from django.http import HttpResponse
 from vendedores.models import Fornecedor
 from .models import Produtos, Pedidos, PedidoPorProduto
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum, Count, F
+from datetime import datetime, timedelta
+from django.utils.timezone import now
+import json
 
 @login_required
 def pedidos(request):
@@ -62,3 +66,53 @@ def novo_pedido(request):
             'fornecedores': fornecedores,
             'produtos': produtos
         })
+    
+@login_required
+def pedidos_dashboard(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+    
+    if data_inicio and data_fim:
+        try:
+            data_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
+            data_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+        except (ValueError, TypeError):
+            data_inicio = now().date() - timedelta(days=30)
+            data_fim = now().date()
+    else:
+        data_inicio = now().date() - timedelta(days=30)
+        data_fim = now().date()
+    
+    # Dados para gráfico de valor total por dia
+    pedidos_por_dia = Pedidos.objects.filter(
+        data_pedido__gte=data_inicio,
+        data_pedido__lte=data_fim
+    ).values('data_pedido').annotate(
+        total_valor=Sum('valor_total'),
+        total_pedidos=Count('id')
+    ).order_by('data_pedido')
+    
+    # Preparar dados para Chart.js
+    datas = [item['data_pedido'].strftime('%Y-%m-%d') for item in pedidos_por_dia]
+    valores = [float(item['total_valor']) if item['total_valor'] else 0 for item in pedidos_por_dia]
+    qtd_pedidos = [item['total_pedidos'] for item in pedidos_por_dia]
+    
+    # Item mais comprado no período
+    item_mais_comprado = PedidoPorProduto.objects.filter(
+        pedido__data_pedido__gte=data_inicio,
+        pedido__data_pedido__lte=data_fim
+    ).values('produto__nome').annotate(
+        total_quantidade=Sum('quantidade'),
+        total_vendido=Sum(F('quantidade') * F('valor_unitario'))
+    ).order_by('-total_quantidade').first()
+    
+    context = {
+        'data_inicio': data_inicio.strftime('%Y-%m-%d'),
+        'data_fim': data_fim.strftime('%Y-%m-%d'),
+        'datas_json': json.dumps(datas),
+        'valores_json': json.dumps(valores),
+        'qtd_pedidos_json': json.dumps(qtd_pedidos),
+        'item_mais_comprado': item_mais_comprado,
+    }
+    
+    return render(request, 'pedidos/dashboard.html', context)
