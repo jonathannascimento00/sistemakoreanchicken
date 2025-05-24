@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'estoque',
     'pedidos',
     'users',
-    'bootstrap5',
-    'chartjs'
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
